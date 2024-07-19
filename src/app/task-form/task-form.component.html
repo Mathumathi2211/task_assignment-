@@ -1,0 +1,30 @@
+<!-- <form (ngSubmit)="onSubmit()" [formGroup]="taskForm" class="task-form">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" formControlName="title" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" formControlName="description"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" name="status" formControlName="status" required>
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+        </select>
+    </div>
+    <button type="submit" [disabled]="taskForm.invalid">Add Task</button>
+</form> -->
+
+<form (ngSubmit)="onSubmit()" [formGroup]="taskForm" >
+    <input type="text" formControlName="title" name="title" placeholder="Task Title" required />
+    <textarea formControlName="description" name="description" placeholder="Task Description"></textarea>
+    <select formControlName="status" name="status">
+        <option value="To Do">To Do</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Done">Done</option>
+    </select>
+    <button type="submit">Add Task</button>
+</form>
