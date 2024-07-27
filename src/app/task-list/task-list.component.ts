@@ -14,7 +14,7 @@ interface Task {
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent {
-  @Input() tasks: Task[] = [];
+  @Input() tasks: any;
 
   constructor(private taskService: TaskService) { }
 
