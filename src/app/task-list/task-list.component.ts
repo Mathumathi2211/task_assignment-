@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { TaskService } from '../task.service';
 
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-}
+// interface Task {
+//   id: number;
+//   title: string;
+//   description: string;
+//   status: string;
+// }
 
 @Component({
   selector: 'app-task-list',
