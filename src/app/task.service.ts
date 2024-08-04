@@ -1,28 +1,39 @@
+// src/app/task.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Task } from './task.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:5432/tasks';
+  private tasks: Task[] = [];
+  private tasksSubject = new BehaviorSubject<Task[]>(this.tasks);
 
-  constructor(private http: HttpClient) {}
-
-  getTasks(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getTasks() {
+    return this.tasksSubject.asObservable();
   }
 
-  addTask(task: any): Observable<any> {
-    return this.http.post(this.apiUrl, task);
+  addTask(task: Task) {
+    this.tasks.push(task);
+    this.tasksSubject.next(this.tasks);
   }
 
-  updateTask(task: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${task.id}`, task);
+  updateTask(updatedTask: Task) {
+    this.tasks = this.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
+    this.tasksSubject.next(this.tasks);
   }
 
-  deleteTask(taskId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${taskId}`);
+  deleteTask(taskId: number) {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.tasksSubject.next(this.tasks);
+  }
+
+  filterTasks(status: 'All' | 'To Do' | 'In Progress' | 'Done') {
+    if (status === 'All') {
+      this.tasksSubject.next(this.tasks);
+    } else {
+      this.tasksSubject.next(this.tasks.filter(task => task.status === status));
+    }
   }
 }

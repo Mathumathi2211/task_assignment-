@@ -1,16 +1,19 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+
+import { Component } from '@angular/core';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-task-filter',
   templateUrl: './task-filter.component.html',
-  styleUrls: ['./task-filter.component.scss']
+  styleUrls: ['./task-filter.component.css']
 })
 export class TaskFilterComponent {
-  
-  @Output() filterChanged = new EventEmitter<string>();
-  selectedStatus: string = 'All';
 
-  onSelectFilter() {
-    this.filterChanged.emit(this.selectedStatus);
+  constructor(private taskService: TaskService) { }
+
+  filterTasks(event: any) {
+    // status = 'All' | 'To Do' | 'In Progress' | 'Done'
+    if (event && event.target && event.target.value)
+      this.taskService.filterTasks(event.target.value);
   }
 }

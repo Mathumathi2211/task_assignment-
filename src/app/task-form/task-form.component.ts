@@ -1,38 +1,20 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TaskService } from '../task.service';
 
-interface Task {
-  title: string;
-  description: string;
-  status: string;
-}
+import { Component } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-task-form',
-  templateUrl: '/task-form.component.html',
-  styleUrls: ['/task-form.component.scss']
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent {
+  task: Task = { id: Date.now(), title: '', description: '', status: 'To Do' };
 
-  taskForm = new FormGroup({
-    title: new FormControl(''),
-    description: new FormControl(''),
-    status: new FormControl('To Do')
-  });
+  constructor(private taskService: TaskService) { }
 
-  constructor(private taskService: TaskService) {}
-
-  onSubmit() {
-    if (!this.taskForm) {
-      alert('Title is required!');
-      return;
-    }
-    const newTask = { title: this.taskForm.controls.title, description: this.taskForm.controls.description, status: this.taskForm.controls.status };
-    this.taskService.addTask(newTask).subscribe(() => {
-      this.taskForm.controls.title.setValue('');
-      this.taskForm.controls.description.setValue('');
-      this.taskForm.controls.status.setValue('To Do');
-    });
+  addTask() {
+    this.taskService.addTask({ ...this.task, id: Date.now() });
+    this.task = { id: Date.now(), title: '', description: '', status: 'To Do' };
   }
 }

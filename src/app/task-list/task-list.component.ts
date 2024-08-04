@@ -1,38 +1,27 @@
-import { Component, Input } from '@angular/core';
-import { TaskService } from '../task.service';
 
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+  styleUrls: ['./task-list.component.css']
 })
-export class TaskListComponent {
-  @Input() tasks: any;
+export class TaskListComponent implements OnInit {
+  tasks: Task[] = [];
 
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.loadTasks();
+    this.taskService.getTasks().subscribe(t => this.tasks = t);
   }
 
-  loadTasks() {
-    this.taskService.getTasks().subscribe((data: any) => {
-      this.tasks = data;
-    });
-  }
-
-  updateStatus(task: any) {
-    this.taskService.updateTask(task).subscribe(() => this.loadTasks());
+  updateTask(task: Task) {
+    this.taskService.updateTask(task);
   }
 
   deleteTask(taskId: number) {
-    this.taskService.deleteTask(taskId).subscribe(() => this.loadTasks());
+    this.taskService.deleteTask(taskId);
   }
 }

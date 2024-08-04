@@ -1,6 +1,7 @@
-<select value="selectedStatus" (change)="onSelectFilter()">
-    <option value="All">All</option>
-    <option value="To Do">To Do</option>
-    <option value="In Progress">In Progress</option>
-    <option value="Done">Done</option>
-  </select>
+
+<select (change)="filterTasks($event)">
+  <option value="All">All</option>
+  <option value="To Do">To Do</option>
+  <option value="In Progress">In Progress</option>
+  <option value="Done">Done</option>
+</select>
